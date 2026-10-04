@@ -80,6 +80,7 @@ The project uses a student performance dataset inspired by publicly available ed
 ### Maintainer
 
 - Hadeed Ahsan
+- Kiran Shams
 
 ### Community Contributions
 
