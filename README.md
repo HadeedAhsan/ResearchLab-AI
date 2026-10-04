@@ -77,10 +77,15 @@ The project uses a student performance dataset inspired by publicly available ed
 
 ## Contributors
 
-### Maintainer
-
-- Hadeed Ahsan
+### Foundational Developer
+- Hadeed Ahsan (Project Leader)
+### Refinements
 - Kiran Shams
+- Mahnoor Fatima
+### Documentation
+- Aima Muzammil
+### Presentation
+- Alishba Ishrat
 
 ### Community Contributions
 
