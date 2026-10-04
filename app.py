@@ -18,7 +18,7 @@ from planner import MissingKeyError, OutOfScopeError, PlanError
 # =========================================================
 
 st.set_page_config(
-    page_title="ResearchLab AI",
+    page_title="ResearchLab-AI",
     page_icon="🧪",
     layout="wide",
 )
