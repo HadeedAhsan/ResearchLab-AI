@@ -22,7 +22,7 @@ Write a clear report in Markdown with exactly these sections:
 
 Rules:
 - Summary: 2 to 3 sentences in plain language.
-- Key Findings: one short bullet per factor with the group averages and the gap. Copy gap values exactly as given, never round or change them.
+- Key Findings: one short bullet per factor with the group averages, the gap and the effect_size label (negligible, small, medium or large). Copy gap values exactly as given, never round or change them.
 - Contradictions: if the list above is empty, write: No contradictions detected across subjects. Otherwise explain each one in plain language, naming which group leads in which subject, and warn that a single overall claim would be misleading.
 - Hypotheses: 2 to 3 testable hypotheses that could explain the findings, including one that could explain any contradiction.
 - Limitations: mention that this shows association and not cause, and that the dataset is limited.
