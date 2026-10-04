@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 from groq import Groq
 
 load_dotenv()
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
+
+DEFAULT_MODEL = "openai/gpt-oss-120b"
 
 GROUP_COLUMNS = [
     "gender",
@@ -17,9 +17,34 @@ GROUP_COLUMNS = [
 ]
 
 
+class MissingKeyError(RuntimeError):
+    """GROQ_API_KEY is not set."""
+
+
+class OutOfScopeError(ValueError):
+    """The question is not about this dataset."""
+
+
+class PlanError(ValueError):
+    """The model did not return a usable plan."""
+
+
+_client = None
+
+
+def get_client():
+    global _client
+    if _client is None:
+        key = os.getenv("GROQ_API_KEY")
+        if not key:
+            raise MissingKeyError("GROQ_API_KEY is not set.")
+        _client = Groq(api_key=key)
+    return _client
+
+
 def ask_llm(prompt):
-    response = client.chat.completions.create(
-        model=MODEL,
+    response = get_client().chat.completions.create(
+        model=os.getenv("GROQ_MODEL", DEFAULT_MODEL),
         messages=[{"role": "user", "content": prompt}],
     )
     return response.choices[0].message.content
@@ -31,13 +56,34 @@ Available factors: {GROUP_COLUMNS}
 Research question: {question}
 
 Pick the 2 to 4 factors most relevant to the question.
+If the question is not about student performance, or none of the factors are relevant, return an empty list.
 Reply with JSON only, in exactly this format:
 {{"tasks": [{{"group_column": "lunch", "reason": "short reason"}}]}}"""
 
-    text = ask_llm(prompt)
-    match = re.search(r"\{.*\}", text, re.DOTALL)
-    plan = json.loads(match.group(0))
-    return [t for t in plan["tasks"] if t["group_column"] in GROUP_COLUMNS]
+    for _ in range(2):
+        text = ask_llm(prompt) or ""
+        match = re.search(r"\{.*\}", text, re.DOTALL)
+        if not match:
+            continue
+        try:
+            plan = json.loads(match.group(0))
+        except json.JSONDecodeError:
+            continue
+
+        raw_tasks = plan.get("tasks")
+        if raw_tasks == []:
+            raise OutOfScopeError("No relevant factors for this question.")
+
+        tasks, seen = [], set()
+        for t in raw_tasks or []:
+            col = t.get("group_column") if isinstance(t, dict) else None
+            if col in GROUP_COLUMNS and col not in seen:
+                seen.add(col)
+                tasks.append({"group_column": col, "reason": t.get("reason", "")})
+        if tasks:
+            return tasks
+
+    raise PlanError("The model did not return a usable research plan.")
 
 
 if __name__ == "__main__":
