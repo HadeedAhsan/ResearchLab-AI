@@ -1,60 +1,116 @@
 # 🧪 ResearchLab AI
 
-An autonomous AI research agent for the education domain. Ask a question about student performance and the agent plans the research, analyzes real data, detects contradictions, and writes a structured report.
+ResearchLab AI is an autonomous research assistant for the education domain. It helps users explore student performance questions by planning a study, analyzing real data, surfacing contradictions, and generating a structured research report grounded in computed statistics.
 
-## What it does
+## Overview
 
-1. **Plans** the research by choosing the most relevant factors for your question
-2. **Analyzes** a dataset of 1000 students with real statistics (group averages and significance tests)
-3. **Detects contradictions** when the leading group changes between math, reading and writing
-4. **Writes a report** with summary, findings, contradictions, hypotheses and limitations
+This project turns a natural-language question into a research workflow:
 
-The AI only writes about numbers computed by Python, so results are not made up.
+1. It identifies the most relevant variables and research direction.
+2. It analyzes student performance data using statistical checks and summaries.
+3. It detects contradictions or shifts in the leading group across subjects.
+4. It produces a narrative report with findings, limitations, and hypotheses.
 
-## AI skills used
+The app is designed to keep outputs evidence-based by basing the narrative on Python-generated metrics rather than freeform assumptions.
 
-- Agentic AI: a LangGraph agent with planning, analysis, contradiction detection and reporting steps
-- AI workflows: each stage is a node in a connected graph that shares state
-- Gen AI: Groq LLM for planning and report writing
+## Key Features
 
-## Tech stack
+- Research planning from user questions
+- Statistical analysis of student performance data
+- Contradiction detection across math, reading, and writing outcomes
+- Structured report generation with findings and caveats
+- Interactive Streamlit interface
+- Groq-powered language workflow for planning and report writing
 
-Python, LangGraph, Groq API, Pandas, SciPy, Plotly, Streamlit
+## Tech Stack
 
-## Run it locally
+- Python
+- Streamlit
+- LangGraph
+- Groq API
+- Pandas
+- SciPy
+- Plotly
 
-```
+## Installation
+
+Clone the repository and set up a virtual environment:
+
+```bash
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Create a .env file in the project folder:
+## Configuration
 
-```
+Create a `.env` file in the project root with your Groq credentials:
+
+```env
 GROQ_API_KEY=your_key_here
 GROQ_MODEL=openai/gpt-oss-120b
 ```
 
-Then start the app:
+You can also export the variables directly in your shell if preferred.
 
-```
+## Running the App
+
+Start the Streamlit app:
+
+```bash
 streamlit run app.py
 ```
 
-## Project structure
+## Project Structure
 
-- app.py: Streamlit interface
-- graph.py: LangGraph agent
-- planner.py: question to research plan
-- analysis_tools.py: statistics and contradiction detection
-- reporter.py: report writing
-- data/students.csv: Students Performance dataset from Kaggle
+- `app.py` — Streamlit user interface
+- `graph.py` — LangGraph orchestration logic
+- `planner.py` — question-to-plan logic
+- `analysis_tools.py` — data analysis and contradiction detection functions
+- `reporter.py` — report generation
+- `data/students.csv` — student performance dataset used for analysis
+- `requirements.txt` — Python dependencies
 
-## Team
+## Data Source
 
-Add your team name and member names here.
+The project uses a student performance dataset inspired by publicly available education datasets and adapted for research-style analysis in the repository.
 
-## Live demo
+## Contributors
 
-Add your Streamlit link here after deployment.
+### Maintainer
+
+- Hadeed Ahsan
+
+### Community Contributions
+
+Contributions are welcome. If you would like to contribute, please open an issue or submit a pull request.
+
+## Contributing
+
+We welcome improvements, bug fixes, documentation updates, and feature ideas.
+
+Suggested workflow:
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Make your changes.
+4. Run the relevant checks and validations.
+5. Open a pull request with a clear description.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Roadmap
+
+Potential next steps include:
+
+- Better model configuration controls
+- More advanced statistical tests
+- Exporting reports to PDF or Markdown
+- Additional educational datasets and domains
+- Improved research workflow validation and QA
+
+## Contact
+
+For questions or collaboration inquiries, please reach out through the repository issues or contact the maintainer via the project profile associated with this repo.
